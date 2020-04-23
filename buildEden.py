@@ -7,8 +7,6 @@ def build():
 
 
 """Returns a map of the destination XML and all folders containing files for that XML"""
-
-
 def get_build_folders():
     destination_folder_dict = {}
     # init empty lists to fill later
