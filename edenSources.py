@@ -43,6 +43,14 @@ def destination_tuples():
 def get_destination_file_name():
     return "Destination.txt"
 
+def get_properties_file_name():
+    return "SteamInfos.txt"
+
+def get_properties():
+    return [
+        "steam_folder",
+        "mod_folder_name"
+    ]
 
 def get_top_tag(destination):
     top_tags = {
@@ -64,3 +72,4 @@ def get_top_tag(destination):
     open_tag = xml_info + "\n" + "<" + top_tags[destination] + ">"
     close_tag = "</" + top_tags[destination] + ">"
     return (open_tag, close_tag)
+

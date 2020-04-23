@@ -2,6 +2,7 @@
 import os
 from shutil import copyfile
 from edenSources import destination_tuples, get_destination_file_name
+from updateSteamInfo import create_info_file
 
 def setup_folders(path_to_workspace):
     print("setting up folders...")
@@ -37,6 +38,7 @@ if __name__ == "__main__":
     path_to_workspace = os.path.join(os.getcwd(),"test")
     # path_to_workspace = input("""Please enter the directory in which you want to set up.
     # If you want to set up in the current directory just press Enter:""")
+    create_info_file(path_to_workspace)
     if path_to_workspace == "":
         setup_workspace()
     else:
