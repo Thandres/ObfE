@@ -1,9 +1,9 @@
 import os
-from edenSources import get_properties_file_name, get_properties
+from edenSources import get_properties_file_name, get_properties, prop_split
 
 
 def create_info_file(path_to_workspace=os.getcwd()):
-    path_to_steam = [get_properties()[0], input("""Please enter the path to you Steam folder.
+    path_to_steam = [get_properties()[0], input("""Please enter the path to you Steam installation folder(i.e. 'C:\Program Files\Steam').
     if you want to do this later just press enter and run updateSteamInfo.py whenyou are ready:\n""")]
     if path_to_steam[1] != "":
         mod_folder = ([get_properties()[1],
@@ -14,7 +14,7 @@ def create_info_file(path_to_workspace=os.getcwd()):
             f.write(content)
 
 def join_property(prop_as_list):
-    return ":".join(prop_as_list)
+    return prop_split().join(prop_as_list)
 
 if __name__ == '__main__':
     create_info_file()

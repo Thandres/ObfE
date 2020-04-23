@@ -8,7 +8,7 @@ def build(output_folder=os.getcwd()):
         folders = destination_folder_dict[destination]
         content = ""
         for folder in folders:
-            content += get_strings(os.path.join(os.getcwd(), folder))
+            content += get_strings(os.path.join(os.getcwd(), folder),".xml")
         if content != "":
             open_tag, close_tag = get_top_tag(destination)
             file_content = open_tag + content + "\n" + close_tag
@@ -16,10 +16,10 @@ def build(output_folder=os.getcwd()):
                 f.write(file_content)
 
 
-def get_strings(file_path):
+def get_strings(file_path, extension):
     content = ""
     for root, _, files in os.walk(file_path):
-        xml_files = [xml for xml in files if xml.endswith(".xml")]
+        xml_files = [xml for xml in files if xml.endswith(extension)]
         for file in xml_files:
             with open(os.path.join(root, file), "r") as f:
                 xml_lines = f.readlines()

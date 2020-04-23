@@ -1,3 +1,4 @@
+import os
 def destination_list():
     return [
         "Artifacts.xml",
@@ -52,6 +53,9 @@ def get_properties():
         "mod_folder_name"
     ]
 
+def get_local_mod_folder_path():
+    return os.path.join("steamapps","common","One Step From Eden","OSFE_Data","StreamingAssets","Mods")
+
 def get_top_tag(destination):
     top_tags = {
         "Artifacts.xml": "Artifacts",
@@ -73,3 +77,5 @@ def get_top_tag(destination):
     close_tag = "</" + top_tags[destination] + ">"
     return (open_tag, close_tag)
 
+def prop_split():
+    return "|"
