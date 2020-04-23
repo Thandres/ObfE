@@ -1,5 +1,5 @@
 import os
-from edenSources import destination_list, destination_tuples, get_destination_file_name
+from edenSources import destination_list, get_destination_file_name, get_top_tag
 
 
 def build():
@@ -9,8 +9,11 @@ def build():
         content = ""
         for folder in folders:
             content += get_strings(os.path.join(os.getcwd(),folder))
-        print(destination)
-        print(content)
+        if content != "":
+            open_tag, close_tag = get_top_tag(destination)
+            file_content = open_tag + content + "\n" + close_tag
+            with open(os.path.join(os.getcwd(),destination),"w") as f:
+                f.write(file_content)
 
 def get_strings(file_path):
     content =""
