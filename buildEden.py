@@ -1,6 +1,6 @@
 import os
 
-from edenSources import destination_list, get_destination_file_name, get_top_tag
+from edenSources import get_destination_file_name, get_top_tag
 
 
 def build(output_folder=os.getcwd()):
@@ -10,7 +10,7 @@ def build(output_folder=os.getcwd()):
         content = ""
         extension = destination[-3:]
         for folder in folders:
-            content += get_strings(os.path.join(os.getcwd(), folder), extension)
+            content += get_strings(folder, extension)
         if content != "":
             if "xml" in extension:
                 open_tag, close_tag = get_top_tag(destination)
@@ -21,15 +21,25 @@ def build(output_folder=os.getcwd()):
                 f.write(file_content)
 
 
-def get_strings(file_path, extension):
+def get_strings(file_path, extension, same_destination=True):
     content = ""
-    for root, _, files in os.walk(file_path):
-        extension_files = [f for f in files if f.endswith(extension)]
-        for file in extension_files:
-            with open(os.path.join(root, file), "r") as f:
-                lines = f.readlines()
-            data = "\n" + "".join(lines)
-            content += data
+
+    items = os.listdir(file_path)
+    if not same_destination:
+        new_destination = get_destination_file_name() in items
+        if new_destination:  # When there is a new Destination file dont look into subfolders
+            return ""
+    folders = [d for d in items if os.path.isdir(os.path.join(file_path, d))]
+    extension_files = [f for f in items if f.endswith(extension)]
+
+    for file in extension_files:
+        with open(os.path.join(file_path, file), "r") as f:
+            lines = f.readlines()
+        data = "\n" + "".join(lines)
+        content += data
+
+    for folder in folders:
+        content += get_strings(os.path.join(file_path, folder), extension, False)
     return content
 
 
@@ -38,30 +48,40 @@ def get_strings(file_path, extension):
 
 def get_build_folders():
     destination_folder_dict = {}
-    # init empty lists to fill later
-    for destination in set(destination_list()):
-        destination_folder_dict[destination] = []
-    for root, dir, files in os.walk("local", False):
+
+    for root, dir, files in os.walk(".", False):
         if get_destination_file_name() in files:
             file_path = os.path.join(root, get_destination_file_name())
             with open(file_path, "r") as f:
                 destinations = [l.replace("\n", "") for l in f.readlines() if l != "\n"]
-            xml = [l for l in destination if l.endswith(".xml")]
-            lua = [l for l in destination if l.endswith(".lua")]
-            root_folder = os.path.basename(root)
-            put_in_dict(xml, destination_folder_dict, root_folder)
-            put_in_dict(lua, destination_folder_dict, root_folder)
+            if len(destinations) == 0:
+                continue
+            xml = [l for l in destinations if l.endswith(".xml")]
+            lua = [l for l in destinations if l.endswith(".lua")]
+            root_folder = os.path.abspath(root)
+            if len(xml) > 0:
+                put_in_dict(xml, destination_folder_dict, root_folder, ".xml")
+            if len(xml) > 1:
+                too_many_destination_error(xml, ".xml", root)
+            if len(lua) > 0:
+                put_in_dict(lua, destination_folder_dict, root_folder, ".lua")
+            if len(lua) > 1:
+                too_many_destination_error(lua, ".lua", root)
             continue
     return destination_folder_dict
 
 
-def put_in_dict(list, dictionary, value):
-    if len(list) > 1:
-        print("There were multiple {0} destinations. {0}-Files will not be collected into any of them"
-            .format(
-            list[0][-4:]))
-    else:
+def too_many_destination_error(amount, extension, folder):
+    print("There were {0} destinations in {1}. {2}-Files will not be collected into any of them"
+          .format(amount, folder,
+                  extension))
+
+
+def put_in_dict(list, dictionary, value, extension):
+    if list[0] in dictionary.keys():
         dictionary[list[0]].append(value)
+    else:
+        dictionary[list[0]] = [value]
 
 
 if __name__ == "__main__":
