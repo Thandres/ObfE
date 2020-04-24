@@ -1,6 +1,7 @@
 # One build from Eden
 Bundle of python skripts that help setup and manage mods for **One step from Eden**
-You can simply download the zip-archive if you want to use it
+
+You can simply download scripts.zip if you want to use it
 
 _Requires python to be installed on your system to work_
 
