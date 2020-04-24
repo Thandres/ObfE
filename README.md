@@ -1,5 +1,6 @@
 # One build from Eden
 Bundle of python skripts that help setup and manage mods for **One step from Eden**
+You can simply download the zip-archive if you want to use it
 
 _Requires python to be installed on your system to work_
 
@@ -46,4 +47,5 @@ Pull and feature requests are always welcome, i will credit you accordingly
 ## Planned
 - transfer files to Steam Workshop
 - support other files(sprites and stuff)
+- Userinterface
   
