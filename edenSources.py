@@ -12,7 +12,10 @@ def destination_list():
         "Tilefields.xml",
         "Zones.xml",
         "ZonesStorage.xml",
-        "Spells.xml"
+        "Spells.xml",
+        "Spells.lua",
+        "Artifacts.lua",
+        "Effects.lua"
     ]
 
 
@@ -29,7 +32,9 @@ def folder_list():
         "tilefields",
         "zones",
         "zonesStorage",
-        "weapons"
+        "weapons",
+        "spells",
+        "artifacts"
     ]
 
 

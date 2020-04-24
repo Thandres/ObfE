@@ -8,10 +8,13 @@ def setup_folders(path_to_workspace):
     print("setting up folders...")
     for folder, destination in destination_tuples():
         path_to_folder = os.path.join(path_to_workspace, folder)
-        os.mkdir(path_to_folder)
+        try:
+            os.mkdir(path_to_folder)
+        except:
+            print("{} already exists".format(path_to_folder))
         dest_file = os.path.join(path_to_folder,get_destination_file_name())
-        with open(dest_file, "w") as f:
-            f.write(destination)
+        with open(dest_file, "a") as f:
+            f.write(destination+"\n")
     print("finished folders")
 
 def setup_scripts(path_to_workspace):
@@ -29,15 +32,16 @@ def setup_scripts(path_to_workspace):
 def setup_workspace(path_to_workspace = os.getcwd()):
     print("setting up workspace...")
     setup_folders(path_to_workspace)
-    setup_scripts(path_to_workspace)
+    if not path_to_workspace == os.getcwd():
+        setup_scripts(path_to_workspace)
     print("finished workspace")
 
 
 
 if __name__ == "__main__":
-    path_to_workspace = os.path.join(os.getcwd(),"test")
-    # path_to_workspace = input("""Please enter the directory in which you want to set up.
-    # If you want to set up in the current directory just press Enter:""")
+    # path_to_workspace = os.path.join(os.getcwd(),"test")
+    path_to_workspace = input("""Please enter the directory in which you want to set up.
+    If you want to set up in the current directory just press Enter:\n""")
     create_info_file(path_to_workspace)
     if path_to_workspace == "":
         setup_workspace()
