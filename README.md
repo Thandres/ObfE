@@ -26,7 +26,9 @@ This lets you organize your mod in as many directories and files as you want, gi
 directories reside in the your base directory with the ObfE scripts and that each directory with mod files in them 
 to combine contains a Destination.txt
 
-The files you can combine to are the same ones found in your StreamingAssets/Data directory:
+Destination names are fixed for XML files, so use them as Destination if you set up your own structure:
+
+Otherwise setupEden.py will set up the names used in the StreamAssets/Data directory:
 
  - Artifacts.xml
 - Artifacts.lua

@@ -30,3 +30,4 @@ if __name__ == '__main__':
             exit()
     path_to_mod = get_path_to_mod()
     build(path_to_mod)
+    input("Finished, press enter to close")

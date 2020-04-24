@@ -4,13 +4,12 @@ from edenSources import get_destination_file_name, get_top_tag
 
 
 def build(output_folder=os.getcwd()):
-    destination_folder_dict = get_build_folders()
-    for destination in destination_folder_dict.keys():
-        folders = destination_folder_dict[destination]
-        content = ""
-        extension = destination[-3:]
-        for folder in folders:
-            content += get_strings(folder, extension)
+    destination_dictionary = {}
+    fill_with_content(destination_dictionary, os.getcwd(), [])
+    for destination in destination_dictionary.keys():
+        extension = destination.split(".")[1]
+        content = "".join(destination_dictionary[destination])
+
         if content != "":
             if "xml" in extension:
                 open_tag, close_tag = get_top_tag(destination)
@@ -21,48 +20,41 @@ def build(output_folder=os.getcwd()):
                 f.write(file_content)
 
 
-def get_strings(file_path, extension, same_destination=True):
-    content = ""
-
-    items = os.listdir(file_path)
-    if not same_destination:
-        new_destination = get_destination_file_name() in items
-        if new_destination:  # When there is a new Destination file dont look into subfolders
-            return ""
-    folders = [d for d in items if os.path.isdir(os.path.join(file_path, d))]
-    extension_files = [f for f in items if f.endswith(extension)]
-
-    for file in extension_files:
-        with open(os.path.join(file_path, file), "r") as f:
-            lines = f.readlines()
-        data = "\n" + "".join(lines)
-        content += data
-
-    for folder in folders:
-        content += get_strings(os.path.join(file_path, folder), extension, False)
-    return content
-
-
-def get_strings2(file_path, extension, last_destinations):
-    content = ""
-
+def fill_with_content(dictionary, file_path, last_destinations):
     items = os.listdir(file_path)
     new_destinations = last_destinations
     if get_destination_file_name() in items:
-        new_destinations = get_destination_names(os.path.join(file_path,get_destination_file_name()))
+        new_destinations = get_destination_names(os.path.join(file_path, get_destination_file_name()))
+
     folders = [d for d in items if os.path.isdir(os.path.join(file_path, d))]
+    extensions = [ext.split(".")[1] for ext in new_destinations]
+    for destination in new_destinations:
+        extension = destination.split(".")[1]
+        if extensions.count(extension) == 1:
+            content = content_for_extension([f for f in items if f.endswith(extension)], file_path)
+            put_in_dict(destination, dictionary, content)
+        else:
+            too_many_destination_error(extensions.count(extension), extension, file_path)
 
-    extension_files = [f for f in items if f.endswith(extension)]
+    for folder in folders:
+        fill_with_content(dictionary, os.path.join(file_path, folder), new_destinations)
 
-    for file in extension_files:
+
+def content_for_extension(files, file_path):
+    content = ""
+    for file in files:
         with open(os.path.join(file_path, file), "r") as f:
             lines = f.readlines()
         data = "\n" + "".join(lines)
         content += data
-
-    for folder in folders:
-        content += get_strings2(os.path.join(file_path, folder), extension, False)
     return content
+
+
+def put_in_dict(key, dictionary, value):
+    if key in dictionary.keys():
+        dictionary[key].append(value)
+    else:
+        dictionary[key] = [value]
 
 
 def get_destination_names(file_path):
@@ -71,42 +63,10 @@ def get_destination_names(file_path):
     return destinations
 
 
-def get_build_folders():
-    destination_folder_dict = {}
-
-    for root, dir, files in os.walk(".", False):
-        if get_destination_file_name() in files:
-            file_path = os.path.join(root, get_destination_file_name())
-            with open(file_path, "r") as f:
-                destinations = [l.replace("\n", "") for l in f.readlines() if l != "\n"]
-            if len(destinations) == 0:
-                continue
-            xml = [l for l in destinations if l.endswith(".xml")]
-            lua = [l for l in destinations if l.endswith(".lua")]
-            root_folder = os.path.abspath(root)
-            if len(xml) > 0:
-                put_in_dict(xml, destination_folder_dict, root_folder, ".xml")
-            if len(xml) > 1:
-                too_many_destination_error(xml, ".xml", root)
-            if len(lua) > 0:
-                put_in_dict(lua, destination_folder_dict, root_folder, ".lua")
-            if len(lua) > 1:
-                too_many_destination_error(lua, ".lua", root)
-            continue
-    return destination_folder_dict
-
-
 def too_many_destination_error(amount, extension, folder):
     print("There were {0} destinations in {1}. {2}-Files will not be collected into any of them"
           .format(amount, folder,
                   extension))
-
-
-def put_in_dict(list, dictionary, value, extension):
-    if list[0] in dictionary.keys():
-        dictionary[list[0]].append(value)
-    else:
-        dictionary[list[0]] = [value]
 
 
 if __name__ == "__main__":
