@@ -1,4 +1,5 @@
 import os
+
 from edenSources import destination_list, get_destination_file_name, get_top_tag
 
 
@@ -40,7 +41,7 @@ def get_build_folders():
     # init empty lists to fill later
     for destination in set(destination_list()):
         destination_folder_dict[destination] = []
-    for root, dir, files in os.walk(".", False):
+    for root, dir, files in os.walk("local", False):
         if get_destination_file_name() in files:
             file_path = os.path.join(root, get_destination_file_name())
             with open(file_path, "r") as f:
