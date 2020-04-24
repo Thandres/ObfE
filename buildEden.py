@@ -43,7 +43,32 @@ def get_strings(file_path, extension, same_destination=True):
     return content
 
 
-"""Returns a map of the destination XML and all folders containing files for that XML"""
+def get_strings2(file_path, extension, last_destinations):
+    content = ""
+
+    items = os.listdir(file_path)
+    new_destinations = last_destinations
+    if get_destination_file_name() in items:
+        new_destinations = get_destination_names(os.path.join(file_path,get_destination_file_name()))
+    folders = [d for d in items if os.path.isdir(os.path.join(file_path, d))]
+
+    extension_files = [f for f in items if f.endswith(extension)]
+
+    for file in extension_files:
+        with open(os.path.join(file_path, file), "r") as f:
+            lines = f.readlines()
+        data = "\n" + "".join(lines)
+        content += data
+
+    for folder in folders:
+        content += get_strings2(os.path.join(file_path, folder), extension, False)
+    return content
+
+
+def get_destination_names(file_path):
+    with open(file_path, "r") as f:
+        destinations = [l.replace("\n", "") for l in f.readlines() if l != "\n"]
+    return destinations
 
 
 def get_build_folders():
