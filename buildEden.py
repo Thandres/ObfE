@@ -9,9 +9,9 @@ def build(output_folder=os.getcwd()):
         content = ""
         extension = destination[-3:]
         for folder in folders:
-            content += get_strings(os.path.join(os.getcwd(), folder),extension)
+            content += get_strings(os.path.join(os.getcwd(), folder), extension)
         if content != "":
-            if  "xml"in extension:
+            if "xml" in extension:
                 open_tag, close_tag = get_top_tag(destination)
                 file_content = open_tag + content + "\n" + close_tag
             else:
@@ -33,6 +33,8 @@ def get_strings(file_path, extension):
 
 
 """Returns a map of the destination XML and all folders containing files for that XML"""
+
+
 def get_build_folders():
     destination_folder_dict = {}
     # init empty lists to fill later
@@ -42,11 +44,23 @@ def get_build_folders():
         if get_destination_file_name() in files:
             file_path = os.path.join(root, get_destination_file_name())
             with open(file_path, "r") as f:
-                destinations = [l.replace("\n","") for l in f.readlines() if l != "\n"]
-            for destination in destinations:
-                destination_folder_dict[destination].append(os.path.basename(root))
+                destinations = [l.replace("\n", "") for l in f.readlines() if l != "\n"]
+            xml = [l for l in destination if l.endswith(".xml")]
+            lua = [l for l in destination if l.endswith(".lua")]
+            root_folder = os.path.basename(root)
+            put_in_dict(xml, destination_folder_dict, root_folder)
+            put_in_dict(lua, destination_folder_dict, root_folder)
             continue
     return destination_folder_dict
+
+
+def put_in_dict(list, dictionary, value):
+    if len(list) > 1:
+        print("There were multiple {0} destinations. {0}-Files will not be collected into any of them"
+            .format(
+            list[0][-4:]))
+    else:
+        dictionary[list[0]].append(value)
 
 
 if __name__ == "__main__":
