@@ -16,11 +16,12 @@ Thats where these scripts come in:
 
 ## How does it work?
 The scripts look in the current directory for any subdirectories with Destination.txt.
-Then it combines all files in directories with the same destination into a single file and finally sends
+Then it combines all files in directories with the same destination, and any subfolders 
+that dont contain Destination.txt into a single file and finally sends
  it over to your **One step from Eden** Mods folder.
 
 This lets you organize your mod in as many directories and files as you want, given that the 
-directories reside in the your base directory with the ObfE scripts and that each directory you want 
+directories reside in the your base directory with the ObfE scripts and that each directory with mod files in them 
 to combine contains a Destination.txt
 
 The files you can combine to are the same ones found in your StreamingAssets/Data directory:
