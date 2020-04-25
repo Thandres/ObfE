@@ -26,20 +26,18 @@ This lets you organize your mod in as many directories and files as you want, gi
 directories reside in the your base directory with the ObfE scripts and that each directory with mod files in them 
 to combine contains a Destination.txt
 
-Destination names are fixed for XML files, so use them as Destination if you set up your own structure:
+Destination names are fixed for XML files, so use them as Destination if you set up your own structure.
+Only put one type of Destination for each file type, as otherwise the folder will be ignored. 
 
-Otherwise setupEden.py will set up the names used in the StreamAssets/Data directory:
-
- - Artifacts.xml
-- Artifacts.lua
- - Battles.xml
+### Valid XML destinations
+- Artifacts.xml
+- Battles.xml
 - Effects.lua
 - Enemies.xml
 - Heroes.xml
 - HeroesExtra.xml
 - Pacts.xml
 - Spells.xml
-- Spells.lua
 - Structures.xml
 - Tilefields.xml
 - Zones.xml
@@ -49,6 +47,6 @@ Pull and feature requests are always welcome, i will credit you accordingly
 
 ## Planned
 - transfer files to Steam Workshop
-- support other files(sprites and stuff)
+- ~~support other files(sprites and stuff)~~ **DONE!**
 - Userinterface
   
