@@ -40,7 +40,7 @@ def setup_workspace(path_to_workspace = os.getcwd()):
 
 
 if __name__ == "__main__":
-    path_to_workspace = os.path.join(os.getcwd(), "test")
+    path_to_workspace = os.path.join(os.getcwd(), "sample")
     # path_to_workspace = input("""Please enter the directory in which you want to set up.
     # If you want to set up in the current directory just press Enter:\n""")
     create_info_file(path_to_workspace)

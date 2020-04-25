@@ -20,8 +20,17 @@ def build(output_folder=os.getcwd()):
                 f.write(file_content)
 
 
+def process_art(dictionary, art_files):
+    # Animation xml  alsways ends in _AnimInfo.xml
+    for file in art_files:
+        put_in_dict("art", dictionary, file)
+
+
 def fill_with_content(dictionary, file_path, last_destinations):
     items = os.listdir(file_path)
+    art_files = [os.path.join(file_path, f)
+                 for f in items if f.endswith(".png") or f.endswith(".aseprite")]
+    process_art(dictionary, art_files)
     new_destinations = last_destinations
     if get_destination_file_name() in items:
         new_destinations = get_destination_names(os.path.join(file_path, get_destination_file_name()))
