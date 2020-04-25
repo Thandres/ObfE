@@ -1,4 +1,5 @@
 import os
+import shutil
 
 from edenSources import get_destination_file_name, get_top_tag
 
@@ -7,6 +8,9 @@ def build(output_folder=os.getcwd()):
     destination_dictionary = {}
     fill_with_content(destination_dictionary, os.getcwd(), [])
     for destination in destination_dictionary.keys():
+        if destination == "art":
+            process_art()
+            continue
         extension = destination.split(".")[1]
         content = "".join(destination_dictionary[destination])
 
@@ -20,17 +24,21 @@ def build(output_folder=os.getcwd()):
                 f.write(file_content)
 
 
-def process_art(dictionary, art_files):
-    # Animation xml  alsways ends in _AnimInfo.xml
-    for file in art_files:
-        put_in_dict("art", dictionary, file)
+def process_art(art_files, output_folder):
+    for src in art_files:
+        file_name = os.path.basename(src)
+        dest = os.path.join(output_folder, file_name)
+        shutil.copyfile(src, dest)
+
+
 
 
 def fill_with_content(dictionary, file_path, last_destinations):
     items = os.listdir(file_path)
     art_files = [os.path.join(file_path, f)
                  for f in items if f.endswith(".png") or f.endswith(".aseprite")]
-    process_art(dictionary, art_files)
+    for file in art_files:
+        put_in_dict("art", dictionary, file)
     new_destinations = last_destinations
     if get_destination_file_name() in items:
         new_destinations = get_destination_names(os.path.join(file_path, get_destination_file_name()))
