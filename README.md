@@ -11,10 +11,23 @@ It sure would be easier to have several smaller files like MySpell.xml to keep i
 and make managing your multiple cool spells easier.
 
 Thats where these scripts come in:
-1. Set up the location for your new mod with setupEden.py
-2. Put as many XML-files with any name you want into any directory with a Destination.txt
-3. When you are ready to test your mod, execute moveToLocalEden.py
-4. Install the mod ingame and test it out!
+### 1. Set up the location for your new mod with setupEden.py
+This will create some default folders with `Destination.txt` in dem and bring all the 
+scripts you need to manage your mod. Delete any of the folders you dont need and begin!
+It will also ask for the location of your steam installation and what your mod should be called.
+### 2. Put as many XML-files with any name you want into any directory with a Destination.txt
+All files in a folder with a `Destination.txt` get combined into the file specified in `Destination.txt`.
+So if `Spells.xml` is in your `Destination.txt` then all XML files in this folder will be put into `Spells.xml`.
+
+**Note:** your XML should not contain the outer tags of the respective file. So for your spell XMLs should not 
+contain the `<Spells>` tag, just `<Spell>` tags and the stuff between that. The scripts put all your XMLs between these 
+tags in the combine step, so no need to do it yourself.
+### 3. When you are ready to test your mod, execute moveToLocalEden.py
+This will ask you for your steam location and the name of your mod if you havent specified it yet and then put all
+your mod files into your local mods folder for you. If you changed something, simply save your files and run the script 
+again!
+### 4. Install the mod ingame and test it out!
+All your files are where Steam needs them, now you can test your mod and see how it plays!
 
 ## How does it work?
 The scripts look in the current directory for any subdirectories with Destination.txt.
