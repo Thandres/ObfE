@@ -1,4 +1,4 @@
-# One build from Eden
+# ObfE - One build from Eden
 Bundle of python skripts that help setup and manage mods for **One step from Eden**
 
 You can simply download scripts.zip if you want to use it
@@ -28,6 +28,22 @@ your mod files into your local mods folder for you. If you changed something, si
 again!
 ### 4. Install the mod ingame and test it out!
 All your files are where Steam needs them, now you can test your mod and see how it plays!
+
+## A note on custom animations and image files
+If you have taken a look at the example mod for the character Lea you may have noticed that the .png and .aseprite
+files for the movement animations is in a subfolder `char` and get referenced in `Lea_AnimInfo.xml` like this:
+
+```
+<Frame image="char/Lea_cast01Start1.png"></Frame>
+<Frame image="char/Lea_cast01Start2.png"></Frame>
+```
+With **ObfE** you dont need to do that. Instead just reference the name of the correct file like this:
+```
+<Frame image="Lea_cast01Start1.png"></Frame>
+<Frame image="Lea_cast01Start2.png"></Frame>
+```
+This works no matter where in your .png files are, because they later all get put into a single folder together with 
+all your .xml, .lua and .aseprite files and dont have any hierarchy to them
 
 ## How does it work?
 The scripts look in the current directory for any subdirectories with Destination.txt.
