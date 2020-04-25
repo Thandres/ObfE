@@ -20,6 +20,8 @@ def build(output_folder=os.getcwd()):
                 file_content = open_tag + content + "\n" + close_tag
             else:
                 file_content = content
+            if not os.path.exists(output_folder):
+                os.mkdir(output_folder)
             with open(os.path.join(output_folder, destination), "w") as f:
                 f.write(file_content)
 
