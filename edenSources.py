@@ -76,10 +76,13 @@ def get_top_tag(destination):
         "Tilefields.xml": "document",
         "Zones.xml": "document",
         "ZonesStorage.xml": "",
+        "AnimInfo": "Animations"
     }
     xml_info = r'<?xml version="1.0" encoding="UTF-8" ?>'
     if destination == "ZonesStorage.xml":
         return (xml_info, "")
+    if "AnimInfo" in destination:
+        destination = "AnimInfo"
     open_tag = xml_info + "\n" + "<" + top_tags[destination] + ">"
     close_tag = "</" + top_tags[destination] + ">"
     return (open_tag, close_tag)
