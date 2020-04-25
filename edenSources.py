@@ -16,6 +16,7 @@ def destination_list():
         "Spells.lua",
         "Artifacts.lua",
         "Effects.lua"
+        "XXXAnimInfo.xml"
     ]
 
 
@@ -34,7 +35,8 @@ def folder_list():
         "zonesStorage",
         "weapons",
         "spells",
-        "artifacts"
+        "artifacts",
+        "animations"
     ]
 
 
