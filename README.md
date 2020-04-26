@@ -18,7 +18,7 @@ scripts you need to manage your mod. Delete any of the folders you dont need and
 It will also ask for the location of your steam installation and what your mod should be called.
 
 ### 2. Put as many XML-files with any name you want into any directory with a Destination.txt
-All files with the same extension in a folder with a `Destination.txt` get combined into the file specified in `Destination.txt`.
+All XMLs in a folder with a `Destination.txt` get combined into the file specified in `Destination.txt`.
 So if `Spells.xml` is in your `Destination.txt` then all .xml files in this folder will be put into `Spells.xml`.
 If there are subfolders then any .xml files also get combined into `Spells.xml` if you dont include a new `Destination.xml` for them
 
@@ -44,6 +44,17 @@ sure that all the information Steam needs for their workshop mods are present. A
 
 Like with all other .xml files you dont need
 to include the outer `<WorkshopItemInfo>` tag in your files, **ObfE** will do that for you.
+
+### That all sounds too complicated! I just want to move my mod to the workshop with the click of a button!
+Well then you are in luck! If you dont care for all the `Destination.txt` organization simply put all your mod files like usual 
+in the folder with the **ObfE** scripts and run the `copyEdenToLocal.py` for your local mod installation or `copyEdenToWorkshop.py`
+to prepare the update for your mod. 
+
+This will simply copy the whole folder structure over to steam,
+ without all the **ObfE** files of course. 
+ 
+ **Note:** When you use this approach everything but the automatic detection of your `<PublishedFileId>` dont apply to you, 
+ so no cheaping out on the folder names in your animation XMLs or leaving out the outer tags of XML files! 
 
 ## A note on animations and other file types
 
