@@ -27,8 +27,8 @@ If you want to also put some .lua files in the same folder just add `Spells.lua`
 This means that you cant put two .xml or .lua destinations into a `Destination.txt`. All files with multiple destinations get ignored!
 
 
-**Note:** your XML should not contain the outer tags of the respective file. So for your spell XMLs should not 
-contain the `<Spells>` tag, just `<Spell>` tags and the stuff between that. The scripts put all your XMLs between these 
+**Note:** your XML should not contain the outer tags of the respective file. So your spell XMLs should not 
+contain the `<Spells>` tag, just `<Spell>` tags and the stuff between that. The scripts put all your XMLs between these outer
 tags in the combine step, so no need to do it yourself.
 
 ### 3. When you are ready to test your mod, execute buildEdenToLocal.py
