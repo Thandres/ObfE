@@ -16,7 +16,8 @@ def destination_list():
         "Spells.lua",
         "Artifacts.lua",
         "Effects.lua"
-        "XXXAnimInfo.xml"
+        "XXXAnimInfo.xml",
+        "WorkshopItemInfo.xml"
     ]
 
 
@@ -36,7 +37,8 @@ def folder_list():
         "weapons",
         "spells",
         "artifacts",
-        "animations"
+        "animations",
+        "workshopInfo"
     ]
 
 
@@ -76,14 +78,21 @@ def get_top_tag(destination):
         "Tilefields.xml": "document",
         "Zones.xml": "document",
         "ZonesStorage.xml": "",
-        "AnimInfo": "Animations"
+        "AnimInfo": "Animations",
+        "WorkshopItemInfo.xml": "WorkshopItemInfo"
+    }
+    tag_info = {
+        "WorkshopItemInfo.xml": r'xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
     }
     xml_info = r'<?xml version="1.0" encoding="UTF-8" ?>'
     if destination == "ZonesStorage.xml":
         return (xml_info, "")
     if "AnimInfo" in destination:
         destination = "AnimInfo"
-    open_tag = xml_info + "\n" + "<" + top_tags[destination] + ">"
+    if destination in tag_info.keys():
+        open_tag = xml_info + "\n" + "<" + top_tags[destination] + " " + tag_info[destination] + ">"
+    else:
+        open_tag = xml_info + "\n" + "<" + top_tags[destination] + ">"
     close_tag = "</" + top_tags[destination] + ">"
     return (open_tag, close_tag)
 
