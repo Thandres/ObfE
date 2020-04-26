@@ -82,7 +82,6 @@ Lua files can be named however you want, so go nuts!
 ### Valid XML destinations
 - Artifacts.xml
 - Battles.xml
-- Effects.lua
 - Enemies.xml
 - Heroes.xml
 - HeroesExtra.xml
@@ -98,7 +97,7 @@ Lua files can be named however you want, so go nuts!
 Pull and feature requests are always welcome, i will credit you accordingly
 
 ## Planned
-- transfer files to Steam Workshop
+- ~~transfer files to Steam Workshop~~ **DONE!**
 - ~~support other files(sprites and stuff)~~ **DONE!**
 - Userinterface
   
