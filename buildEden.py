@@ -1,12 +1,24 @@
 import os
+import re
 import shutil
 
 from edenSources import get_destination_file_name, get_top_tag
 
 
-def build(output_folder=os.getcwd()):
+def build_local(output_folder):
+    build(output_folder)
+
+
+def build_workshop(output_folder):
+    build(output_folder, True)
+
+
+def build(output_folder=os.getcwd(), update_workshop=False):
     destination_dictionary = {}
     fill_with_content(destination_dictionary, os.getcwd(), [])
+    if update_workshop:
+        workshop_info = destination_dictionary["WorkshopItemInfo.xml"]
+        output_folder = workshop(workshop_info, output_folder)
     for destination in destination_dictionary.keys():
         if destination == "art":
             process_art(destination_dictionary[destination], output_folder)
@@ -24,6 +36,15 @@ def build(output_folder=os.getcwd()):
                 os.mkdir(output_folder)
             with open(os.path.join(output_folder, destination), "w") as f:
                 f.write(file_content)
+
+
+def workshop(workshop_info, file_path):
+    for item in workshop_info:
+        id_pattern = r"<PublishedFileId>\d+</PublishedFileId>"
+        match = re.search(id_pattern, item)
+        if match:
+            workhop_update_folder = re.search(r"\d+", match.group(0)).group(0)
+            return os.path.join(file_path, workhop_update_folder)
 
 
 def process_art(art_files, output_folder):
@@ -62,7 +83,7 @@ def content_for_extension(files, file_path):
     for file in files:
         with open(os.path.join(file_path, file), "r") as f:
             lines = f.readlines()
-        content += lines
+        content += [l.replace("\n", "") for l in lines]
     return content
 
 
