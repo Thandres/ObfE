@@ -70,7 +70,7 @@ def props_missing():
 
 def prompt_props():
     if props_missing():
-        create_info_file()
+        create_info_file(get_properties(), get_properties_file_name())
         if props_missing():
             input("{} is still not found. Cant update your mod without that file.\n"
                   "Press enter to exit".format(get_properties_file_name()))

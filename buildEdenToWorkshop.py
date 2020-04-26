@@ -5,7 +5,7 @@ if __name__ == '__main__':
     prompt_props()
     path_to_mod = get_workshop_mod_path()
     try:
-        build_workshop(path_to_mod, True)
+        build_workshop(path_to_mod)
     except Exception as e:
         print(e)
     input("Finished, press enter to close")
