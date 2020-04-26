@@ -9,7 +9,7 @@ def build(output_folder=os.getcwd()):
     fill_with_content(destination_dictionary, os.getcwd(), [])
     for destination in destination_dictionary.keys():
         if destination == "art":
-            process_art()
+            process_art(destination_dictionary[destination], output_folder)
             continue
         extension = destination.split(".")[1]
         content = "".join(destination_dictionary[destination])
