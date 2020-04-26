@@ -1,4 +1,8 @@
 import os
+
+from updateSteamInfo import create_info_file
+
+
 def destination_list():
     return [
         "Artifacts.xml",
@@ -64,6 +68,15 @@ def props_missing():
     return not os.path.exists(property_path())
 
 
+def prompt_props():
+    if props_missing():
+        create_info_file()
+        if props_missing():
+            input("{} is still not found. Cant update your mod without that file.\n"
+                  "Press enter to exit".format(get_properties_file_name()))
+            exit()
+
+
 def get_local_mod_folder_path():
     return os.path.join("steamapps", "common", "One Step From Eden", "OSFE_Data", "StreamingAssets", "Mods")
 
@@ -71,8 +84,10 @@ def get_local_mod_folder_path():
 def get_workshop_mod_folder_path():
     return os.path.join("steamapps", "workshop", "content", "960690")
 
+
 def get_backup_folder_name():
     return "backup"
+
 
 def property_path():
     return os.path.join(os.getcwd(), get_properties_file_name())
@@ -131,6 +146,7 @@ def get_top_tag(destination):
         open_tag = xml_info + "\n" + "<" + top_tags[destination] + ">\n"
     close_tag = "\n</" + top_tags[destination] + ">"
     return (open_tag, close_tag)
+
 
 def prop_split():
     return "|"

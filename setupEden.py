@@ -12,24 +12,26 @@ def setup_folders(path_to_workspace):
         path_to_folder = os.path.join(path_to_workspace, folder)
         if not os.path.exists(path_to_folder):
             os.mkdir(path_to_folder)
-        dest_file = os.path.join(path_to_folder,get_destination_file_name())
+        dest_file = os.path.join(path_to_folder, get_destination_file_name())
         with open(dest_file, "a") as f:
-            f.write(destination+"\n")
+            f.write(destination + "\n")
     print("finished folders")
+
 
 def setup_scripts(path_to_workspace):
     print("setting up scripts...")
     script_execution_path = os.path.dirname(os.path.abspath(__file__))
 
-    dirs =os.listdir(script_execution_path)
+    dirs = os.listdir(script_execution_path)
     py_files = [f for f in dirs if f.endswith(".py")]
     for file in py_files:
         dst_filename = os.path.join(path_to_workspace, file)
         copyfile(file, dst_filename)
     print("finished scripts")
 
+
 # first goal: XML, Lua second
-def setup_workspace(path_to_workspace = os.getcwd()):
+def setup_workspace(path_to_workspace=os.getcwd()):
     print("setting up workspace...")
     setup_folders(path_to_workspace)
     if not path_to_workspace == os.getcwd():
