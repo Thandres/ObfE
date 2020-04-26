@@ -24,7 +24,7 @@ If there are subfolders then any .xml files also get combined into `Spells.xml` 
 
 If you want to also put some .lua files in the same folder just add `Spells.lua` to the `Destination.txt` and then all the lua files will be combined into `Spells.lua`.
 
-This means that you cant put two .xml or .lua destinations into a `Destination.txt`. All files with multiple destinations get ignored!
+This means that you cant put two .xml or .lua destinations into a `Destination.txt`. **All files with multiple destinations get ignored!**
 
 
 **Note:** your XML should not contain the outer tags of the respective file. So your spell XMLs should not 
