@@ -17,8 +17,17 @@ def build(output_folder=os.getcwd(), update_workshop=False):
     destination_dictionary = {}
     fill_with_content(destination_dictionary, os.getcwd(), [])
     if update_workshop:
+        workshop_xml = "WorkshopItemInfo.xml"
+        if not workshop_xml in destination_dictionary.keys():
+            raise Exception(
+                "There were no files for {}. Please make sure you have a Destination.txt set up and .xml files in the correct folder".format(
+                    workshop_xml))
         workshop_info = destination_dictionary["WorkshopItemInfo.xml"]
         output_folder = workshop(workshop_info, output_folder)
+        if not os.path.exists(output_folder):
+            raise Exception(
+                "You are not subscribed to the mod with the ID {}. Please subscribe to your mod via the Steam  and try again.".format(
+                    os.path.basename(output_folder)))
     for destination in destination_dictionary.keys():
         if destination == "art":
             process_art(destination_dictionary[destination], output_folder)
@@ -45,6 +54,7 @@ def workshop(workshop_info, file_path):
         if match:
             workhop_update_folder = re.search(r"\d+", match.group(0)).group(0)
             return os.path.join(file_path, workhop_update_folder)
+    raise Exception("No ID found in WorkshopItemInfo.xml. Please make sure that you included a <PublishedFileId> tag")
 
 
 def process_art(art_files, output_folder):

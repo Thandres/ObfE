@@ -140,5 +140,15 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(expected_path, result)
 
+    def test_workshop(self):
+        workshop_info = [r""]
+        failed = False
+        try:
+            buildEden.workshop(workshop_info, out_path)
+        except Exception as e:
+            failed = True
+            print(e)
+        self.assertTrue(failed)
+
 if __name__ == '__main__':
     unittest.main()

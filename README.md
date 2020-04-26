@@ -30,13 +30,21 @@ This means that you cant put two .xml or .lua destinations into a `Destination.t
 contain the `<Spells>` tag, just `<Spell>` tags and the stuff between that. The scripts put all your XMLs between these 
 tags in the combine step, so no need to do it yourself.
 
-### 3. When you are ready to test your mod, execute buildToLocalEden.py
+### 3. When you are ready to test your mod, execute buildEdenToLocal.py
 This will ask you for your steam location and the name of your mod if you havent specified it yet and then put all
 your mod files into your local mods folder for you. If you changed something, simply save your files and run the script 
 again!
 
 ### 4. Install the mod ingame and test it out!
 All your files are where Steam needs them, now you can test your mod and see how it plays!
+
+### 5. When you want to update your mod on the Steam workshop just execute buildEdenToWorkshop.py
+If you set up a `WorkshopItemInfo.xml` destination then **ObfE** will look for the `<PublishedFileId>` tag and put 
+all your files into the workshop folder with the corresponding ID. No need to look for the folder yourself! Just make
+sure that all the information Steam needs for their workshop mods are present. 
+
+Like with all other .xml files you dont need
+to include the outer `<WorkshopItemInfo>` tag in your files, **ObfE** will do that for you.
 
 ## A note on custom animations and image files
 If you have taken a look at the example mod for the character Lea you may have noticed that the .png and .aseprite
@@ -51,8 +59,9 @@ With **ObfE** you dont need to do that. Instead just reference the name of the c
 <Frame image="Lea_cast01Start1.png"></Frame>
 <Frame image="Lea_cast01Start2.png"></Frame>
 ```
-This works no matter where in your .png files are, because they later all get put into a single folder together with 
+This works no matter where in your folder structure the .png files are, because they later all get put into a single folder together with 
 all your .xml, .lua and .aseprite files and dont have any hierarchy to them
+
 
 ## How does it work?
 The scripts look in the current directory for any subdirectories with Destination.txt.
@@ -65,7 +74,9 @@ directories reside in the your base directory with the ObfE scripts and that eac
 to combine contains a Destination.txt
 
 Destination names are fixed for XML files, so use them as Destination if you set up your own structure.
-Only put one type of Destination for each file type, as otherwise the folder will be ignored. 
+Lua files can be named however you want, so go nuts!
+
+**Only put one type of Destination for each file type, as otherwise the folder will be ignored for those files.**
 
 ### Valid XML destinations
 - Artifacts.xml
@@ -80,6 +91,8 @@ Only put one type of Destination for each file type, as otherwise the folder wil
 - Tilefields.xml
 - Zones.xml
 - ZonesStorage.xml
+- XXXAnimInfo.xml       <- you can put anything in place of the "XXX"
+- WorkshopItemInfo.xml
 ## Contribution
 Pull and feature requests are always welcome, i will credit you accordingly
 

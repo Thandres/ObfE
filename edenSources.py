@@ -53,8 +53,10 @@ def destination_tuples():
 def get_destination_file_name():
     return "Destination.txt"
 
+
 def get_properties_file_name():
     return "SteamInfos.txt"
+
 
 def get_properties():
     return [
@@ -62,8 +64,44 @@ def get_properties():
         "mod_folder_name"
     ]
 
+
+def props_missing():
+    return not os.path.exists(property_path())
+
+
 def get_local_mod_folder_path():
-    return os.path.join("steamapps","common","One Step From Eden","OSFE_Data","StreamingAssets","Mods")
+    return os.path.join("steamapps", "common", "One Step From Eden", "OSFE_Data", "StreamingAssets", "Mods")
+
+
+def get_workshop_mod_folder_path():
+    return os.path.join("steamapps", "workshop", "content", "960690")
+
+
+def property_path():
+    return os.path.join(os.getcwd(), get_properties_file_name())
+
+
+def get_local_mod_path():
+    return get_path_to_mod(get_local_mod_folder_path())
+
+
+def get_workshop_mod_path():
+    return get_path_to_mod(get_workshop_mod_folder_path())
+
+
+def get_path_to_mod(path):
+    lines = []
+    with open(property_path(), "r") as f:
+        lines = [l.replace("\n", "") for l in f.readlines()]
+
+    path_to_steam = get_property(lines[0])
+    mod_name = get_property(lines[1])
+    return os.path.join(path_to_steam, path, mod_name)
+
+
+def get_property(line):
+    return line.split(prop_split())[1]
+
 
 def get_top_tag(destination):
     top_tags = {
