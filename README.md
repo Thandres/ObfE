@@ -77,7 +77,7 @@ to combine contains a Destination.txt
 Destination names are fixed for XML files, so use them as Destination if you set up your own structure.
 Lua files can be named however you want, so go nuts!
 
-**Only put one type of Destination for each file type, as otherwise the folder will be ignored for those files.**
+**Only put one type of Destination for each file type, as otherwise the folder will be ignored for those file types.**
 
 ### Valid XML destinations
 - Artifacts.xml
