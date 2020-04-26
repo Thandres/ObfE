@@ -42,7 +42,7 @@ All your files are where Steam needs them, now you can test your mod and see how
 ### 5. When you want to update your mod on the Steam workshop just execute buildEdenToWorkshop.py
 If you set up a `WorkshopItemInfo.xml` destination then **ObfE** will look for the `<PublishedFileId>` tag and put 
 all your files into the workshop folder with the corresponding ID. No need to look for the folder yourself! Just make
-sure that all the information Steam needs for their workshop mods are present. 
+sure that all the information Steam needs for their workshop mods are present. Afterwards just hit the "updateMod" in **One step from Eden** and you are done!
 
 Like with all other .xml files you dont need
 to include the outer `<WorkshopItemInfo>` tag in your files, **ObfE** will do that for you.
