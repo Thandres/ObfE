@@ -90,10 +90,10 @@ def get_top_tag(destination):
     if "AnimInfo" in destination:
         destination = "AnimInfo"
     if destination in tag_info.keys():
-        open_tag = xml_info + "\n" + "<" + top_tags[destination] + " " + tag_info[destination] + ">"
+        open_tag = xml_info + "\n" + "<" + top_tags[destination] + " " + tag_info[destination] + ">\n"
     else:
-        open_tag = xml_info + "\n" + "<" + top_tags[destination] + ">"
-    close_tag = "</" + top_tags[destination] + ">"
+        open_tag = xml_info + "\n" + "<" + top_tags[destination] + ">\n"
+    close_tag = "\n</" + top_tags[destination] + ">"
     return (open_tag, close_tag)
 
 def prop_split():

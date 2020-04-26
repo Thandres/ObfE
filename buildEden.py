@@ -12,12 +12,12 @@ def build(output_folder=os.getcwd()):
             process_art(destination_dictionary[destination], output_folder)
             continue
         extension = destination.split(".")[1]
-        content = "".join(destination_dictionary[destination])
+        content = "\n".join(destination_dictionary[destination])
 
         if content != "":
             if "xml" in extension:
                 open_tag, close_tag = get_top_tag(destination)
-                file_content = open_tag + content + "\n" + close_tag
+                file_content = open_tag + content + close_tag
             else:
                 file_content = content
             if not os.path.exists(output_folder):
@@ -33,14 +33,12 @@ def process_art(art_files, output_folder):
         shutil.copyfile(src, dest)
 
 
-
-
 def fill_with_content(dictionary, file_path, last_destinations):
     items = os.listdir(file_path)
     art_files = [os.path.join(file_path, f)
                  for f in items if f.endswith(".png") or f.endswith(".aseprite")]
-    for file in art_files:
-        put_in_dict("art", dictionary, file)
+
+    put_in_dict("art", dictionary, art_files)
     new_destinations = last_destinations
     if get_destination_file_name() in items:
         new_destinations = get_destination_names(os.path.join(file_path, get_destination_file_name()))
@@ -60,20 +58,19 @@ def fill_with_content(dictionary, file_path, last_destinations):
 
 
 def content_for_extension(files, file_path):
-    content = ""
+    content = []
     for file in files:
         with open(os.path.join(file_path, file), "r") as f:
             lines = f.readlines()
-        data = "\n" + "".join(lines)
-        content += data
+        content += lines
     return content
 
 
-def put_in_dict(key, dictionary, value):
+def put_in_dict(key, dictionary, list):
     if key in dictionary.keys():
-        dictionary[key].append(value)
+        dictionary[key] += list
     else:
-        dictionary[key] = [value]
+        dictionary[key] = list
 
 
 def get_destination_names(file_path):
