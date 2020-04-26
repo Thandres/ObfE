@@ -33,7 +33,6 @@ def build_default(output_path, update_workshop=False):
             workshop_lines = f.readlines()
         output_path = get_workshop_folder(workshop_lines, output_path)
     if os.path.exists(output_path):
-        create_backup(output_path)
         remove_old_files(output_path)
 
     for root, dirs, files in os.walk(os.getcwd()):
@@ -65,12 +64,6 @@ def remove_old_files(output_path):
         break
 
 
-def create_backup(output_path):
-    if os.path.exists(get_backup_folder_name()):
-        shutil.rmtree(get_backup_folder_name())
-    shutil.copytree(output_path, os.path.join(os.getcwd(), get_backup_folder_name()))
-
-
 def build(output_folder=os.getcwd(), update_workshop=False):
     destination_dictionary = {}
     fill_with_content(destination_dictionary, os.getcwd(), [])
@@ -86,7 +79,6 @@ def build(output_folder=os.getcwd(), update_workshop=False):
             raise Exception(
                 "You are not subscribed to the mod with the ID {}. Please subscribe to your mod via the Steam  and try again.".format(
                     os.path.basename(output_folder)))
-    create_backup(output_folder)
     remove_old_files(output_folder)
     for destination in destination_dictionary.keys():
         if destination == "notXML":

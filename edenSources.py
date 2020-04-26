@@ -100,6 +100,8 @@ def get_local_mod_path():
 
     path_to_steam = get_property(lines[0])
     mod_name = get_property(lines[1])
+    if mod_name == "":
+        mod_name = os.path.basename(os.getcwd())
     return os.path.join(path_to_steam, get_local_mod_folder_path(), mod_name)
 
 
