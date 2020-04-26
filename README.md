@@ -114,5 +114,6 @@ Pull and feature requests are always welcome, i will credit you accordingly
 ## Planned
 - ~~transfer files to Steam Workshop~~ **DONE!**
 - ~~support other files(sprites and stuff)~~ **DONE!**
+- ~~support default organization of files~~ **DONE!**
 - Userinterface
   
