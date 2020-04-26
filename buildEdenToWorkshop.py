@@ -11,7 +11,7 @@ if __name__ == '__main__':
             exit()
     path_to_mod = get_workshop_mod_path()
     try:
-        build_workshop(path_to_mod)
+        build_workshop(path_to_mod, True)
     except Exception as e:
         print(e)
     input("Finished, press enter to close")

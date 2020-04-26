@@ -77,21 +77,22 @@ def property_path():
 
 
 def get_local_mod_path():
-    return get_path_to_mod(get_local_mod_folder_path())
-
-
-def get_workshop_mod_path():
-    return get_path_to_mod(get_workshop_mod_folder_path())
-
-
-def get_path_to_mod(path):
     lines = []
     with open(property_path(), "r") as f:
         lines = [l.replace("\n", "") for l in f.readlines()]
 
     path_to_steam = get_property(lines[0])
     mod_name = get_property(lines[1])
-    return os.path.join(path_to_steam, path, mod_name)
+    return os.path.join(path_to_steam, get_local_mod_folder_path(), mod_name)
+
+
+def get_workshop_mod_path():
+    lines = []
+    with open(property_path(), "r") as f:
+        lines = [l.replace("\n", "") for l in f.readlines()]
+
+    path_to_steam = get_property(lines[0])
+    return os.path.join(path_to_steam, get_workshop_mod_folder_path())
 
 
 def get_property(line):
