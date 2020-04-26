@@ -4,6 +4,7 @@ Bundle of python skripts that help setup and manage mods for **One step from Ede
 You can simply download scripts.zip if you want to use it
 
 _Requires python to be installed on your system to work_
+https://www.python.org/downloads/
 
 ## What does it do?
 Have you been modding **One Step from Eden**? Do you have a Spells.xml with hundreds of lines?
