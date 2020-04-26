@@ -48,6 +48,11 @@ Like with all other .xml files you dont need
 to include the outer `<WorkshopItemInfo>` tag in your files, **ObfE** will do that for you.
 
 ## A note on custom animations and image files
+
+### Image files
+All .png and .aseprite files in any folder get transported to your mod folder in the build step, no need to define a destination for them!
+
+### Animations
 If you have taken a look at the example mod for the character Lea you may have noticed that the .png and .aseprite
 files for the movement animations is in a subfolder `char` and get referenced in `Lea_AnimInfo.xml` like this:
 
