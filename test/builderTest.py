@@ -140,7 +140,7 @@ class MyTestCase(unittest.TestCase):
         workshop_info = [r"<PublishedFileId>2046492427</PublishedFileId>"]
         expected_path = os.path.join(out_path, "2046492427")
 
-        result = buildEden.workshop(workshop_info, out_path)
+        result = buildEden.get_workshop_folder(workshop_info, out_path)
 
         self.assertEqual(expected_path, result)
 
@@ -148,11 +148,14 @@ class MyTestCase(unittest.TestCase):
         workshop_info = [r""]
         failed = False
         try:
-            buildEden.workshop(workshop_info, out_path)
+            buildEden.get_workshop_folder(workshop_info, out_path)
         except Exception as e:
             failed = True
             print(e)
         self.assertTrue(failed)
+
+    def test_default_build(self):
+        buildEden.build_default(out_path)
 
 if __name__ == '__main__':
     unittest.main()

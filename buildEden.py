@@ -2,7 +2,7 @@ import os
 import re
 import shutil
 
-from edenSources import get_destination_file_name, get_top_tag
+from edenSources import get_destination_file_name, get_top_tag, get_properties_file_name, get_backup_folder_name
 
 
 def build_local(output_folder):
@@ -11,6 +11,64 @@ def build_local(output_folder):
 
 def build_workshop(output_folder):
     build(output_folder, True)
+
+
+def build_default(output_path, update_workshop=False):
+    """The default way"""
+
+    if update_workshop:
+        workshop_xml = "WorkshopItemInfo.xml"
+        workshop_file = ""
+        workshop_count = 0
+        for root, dirs, files in os.walk("."):
+            if workshop_file in files:
+                workshop_count += 1
+                workshop_file = files[files.index(workshop_file)]
+
+        if workshop_file != 1:
+            raise Exception("There were {} {}, please make sure everything is correct"
+                            .format(workshop_count, workshop_xml))
+        workshop_lines = []
+        with open(workshop_file, "r") as f:
+            workshop_lines = f.readlines()
+        output_path = get_workshop_folder(workshop_lines, output_path)
+    if os.path.exists(output_path):
+        create_backup(output_path)
+        remove_old_files(output_path)
+
+    for root, dirs, files in os.walk(os.getcwd()):
+        ignored_files = ignore_files_function(dirs, files)
+        for dir in dirs:
+            if dir not in ignored_files:
+                shutil.copytree(os.path.join(root, dir), os.path.join(output_path, dir), ignore=ignore_files_function)
+        for file in files:
+            if not file in ignored_files:
+                shutil.copy(os.path.join(root, file), os.path.join(output_path, file))
+        break
+
+
+def ignore_files_function(dirs, all_files):
+    ignored = [f for f in all_files
+               if f.endswith(".py")]
+    ignored.append(get_backup_folder_name())
+    ignored.append(get_destination_file_name())
+    ignored.append(get_properties_file_name())
+    return ignored
+
+
+def remove_old_files(output_path):
+    for root, dirs, files in os.walk(output_path):
+        for dir in dirs:
+            shutil.rmtree(os.path.join(root, dir))
+        for file in files:
+            os.remove(os.path.join(root, file))
+        break
+
+
+def create_backup(output_path):
+    if os.path.exists(get_backup_folder_name()):
+        shutil.rmtree(get_backup_folder_name())
+    shutil.copytree(output_path, os.path.join(os.getcwd(), get_backup_folder_name()))
 
 
 def build(output_folder=os.getcwd(), update_workshop=False):
@@ -23,11 +81,13 @@ def build(output_folder=os.getcwd(), update_workshop=False):
                 "There were no files for {}. Please make sure you have a Destination.txt set up and .xml files in the correct folder".format(
                     workshop_xml))
         workshop_info = destination_dictionary["WorkshopItemInfo.xml"]
-        output_folder = workshop(workshop_info, output_folder)
+        output_folder = get_workshop_folder(workshop_info, output_folder)
         if not os.path.exists(output_folder):
             raise Exception(
                 "You are not subscribed to the mod with the ID {}. Please subscribe to your mod via the Steam  and try again.".format(
                     os.path.basename(output_folder)))
+    create_backup(output_folder)
+    remove_old_files(output_folder)
     for destination in destination_dictionary.keys():
         if destination == "notXML":
             process_general_files(destination_dictionary[destination], output_folder)
@@ -37,13 +97,13 @@ def build(output_folder=os.getcwd(), update_workshop=False):
         if content != "":
             open_tag, close_tag = get_top_tag(destination)
             file_content = open_tag + content + close_tag
-            if not os.path.exists(output_folder):
+            if not os.path.exists(output_folder) and not update_workshop:
                 os.mkdir(output_folder)
             with open(os.path.join(output_folder, destination), "w") as f:
                 f.write(file_content)
 
 
-def workshop(workshop_info, file_path):
+def get_workshop_folder(workshop_info, file_path):
     for item in workshop_info:
         id_pattern = r"<PublishedFileId>\d+</PublishedFileId>"
         match = re.search(id_pattern, item)
@@ -70,7 +130,9 @@ def fill_with_content(dictionary, file_path, last_destination):
     if get_destination_file_name() in items:
         new_destination = get_destination_names(os.path.join(file_path, get_destination_file_name()))
 
-    folders = [os.path.join(file_path, d) for d in items if os.path.isdir(os.path.join(file_path, d))]
+    folders = [os.path.join(file_path, d) for d in items
+               if os.path.isdir(os.path.join(file_path, d))
+               and not d == get_backup_folder_name()]
     if len(new_destination) == 1:
         destination = new_destination[0]
         content = content_for_extension([f for f in items if f.endswith(".xml")], file_path)

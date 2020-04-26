@@ -71,6 +71,8 @@ def get_local_mod_folder_path():
 def get_workshop_mod_folder_path():
     return os.path.join("steamapps", "workshop", "content", "960690")
 
+def get_backup_folder_name():
+    return "backup"
 
 def property_path():
     return os.path.join(os.getcwd(), get_properties_file_name())
