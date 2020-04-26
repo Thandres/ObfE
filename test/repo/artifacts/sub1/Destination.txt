@@ -1,2 +1,1 @@
 Spells.xml
-Artifacts.lua

@@ -30,10 +30,9 @@ class MyTestCase(unittest.TestCase):
 
         buildEden.fill_with_content(result_dict, repo_path, ["Artifacts.xml"])
 
-        self.assertEqual(5, len(result_dict))
-        self.assertEqual(0, len(result_dict["Artifacts.lua"]))
+        self.assertEqual(4, len(result_dict))
         self.workshop_asserts(result_dict["WorkshopItemInfo.xml"])
-        self.art_asserts(result_dict)
+        self.art_asserts(result_dict["notXML"])
         self.artifact_asserts(result_dict)
         self.spell_asserts(result_dict)
 
@@ -59,21 +58,22 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(expected_spell1 in result_spell_content)
         self.assertTrue(expected_spell2 in result_spell_content)
 
-    def art_asserts(self, result_dict):
+    def art_asserts(self, result_art):
         expected_png1 = os.path.join(repo_path, "test.png")
         expected_png2 = os.path.join(repo_path, "artifacts", "test2.png")
         expected_aseprite = os.path.join(repo_path, "test.aseprite")
-        result_art = result_dict["art"]
+        expected_lua = os.path.join(repo_path, "artifacts", "sub1", "sub2", "sub3", "test.lua")
 
         self.assertTrue(expected_png1 in result_art)
         self.assertTrue(expected_png2 in result_art)
         self.assertTrue(expected_aseprite in result_art)
-        self.assertTrue(3 == len(result_art))
+        self.assertTrue(expected_lua in result_art)
+        self.assertTrue(4 == len(result_art))
 
     def test_process_art(self):
         art_files = [input_png2, input_png1, input_aseprite]
 
-        buildEden.process_art(art_files, out_path)
+        buildEden.process_general_files(art_files, out_path)
 
         self.assertTrue(os.path.exists(expected_aseprite))
         self.assertTrue(os.path.exists(expected_png1))
@@ -86,7 +86,7 @@ class MyTestCase(unittest.TestCase):
         expected_png1 = os.path.join(workshop_mod_path, "test.png")
         expected_png2 = os.path.join(workshop_mod_path, "test2.png")
         expected_aseprite = os.path.join(workshop_mod_path, "test.aseprite")
-
+        expected_lua = os.path.join(workshop_mod_path, "test.lua")
         expected_artifact_xml = os.path.join(workshop_mod_path, "Artifacts.xml")
         expected_spells_xml = os.path.join(workshop_mod_path, "Spells.xml")
         expected_workshop_xml = os.path.join(workshop_mod_path, "WorkshopItemInfo.xml")
@@ -100,18 +100,20 @@ class MyTestCase(unittest.TestCase):
         os.remove(expected_png2)
         os.remove(expected_aseprite)
 
+        self.assertTrue(os.path.exists(expected_lua))
         self.assertTrue(os.path.exists(expected_artifact_xml))
         self.assertTrue(os.path.exists(expected_spells_xml))
         self.assertTrue(os.path.exists(expected_workshop_xml))
         os.remove(expected_artifact_xml)
         os.remove(expected_spells_xml)
         os.remove(expected_workshop_xml)
+        os.remove(expected_lua)
 
     def test_build_to_local(self):
         expected_png1 = os.path.join(out_path, "test.png")
         expected_png2 = os.path.join(out_path, "test2.png")
         expected_aseprite = os.path.join(out_path, "test.aseprite")
-
+        expected_lua = os.path.join(out_path, "test.lua")
         expected_artifact_xml = os.path.join(out_path, "Artifacts.xml")
         expected_spells_xml = os.path.join(out_path, "Spells.xml")
         expected_workshop_xml = os.path.join(out_path, "WorkshopItemInfo.xml")
@@ -126,11 +128,13 @@ class MyTestCase(unittest.TestCase):
         os.remove(expected_aseprite)
 
         self.assertTrue(os.path.exists(expected_artifact_xml))
+        self.assertTrue(os.path.exists(expected_lua))
         self.assertTrue(os.path.exists(expected_spells_xml))
         self.assertTrue(os.path.exists(expected_workshop_xml))
         os.remove(expected_artifact_xml)
         os.remove(expected_spells_xml)
         os.remove(expected_workshop_xml)
+        os.remove(expected_lua)
 
     def test_workshop(self):
         workshop_info = [r"<PublishedFileId>2046492427</PublishedFileId>"]

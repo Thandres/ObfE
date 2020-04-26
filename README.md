@@ -22,9 +22,7 @@ All files with the same extension in a folder with a `Destination.txt` get combi
 So if `Spells.xml` is in your `Destination.txt` then all .xml files in this folder will be put into `Spells.xml`.
 If there are subfolders then any .xml files also get combined into `Spells.xml` if you dont include a new `Destination.xml` for them
 
-If you want to also put some .lua files in the same folder just add `Spells.lua` to the `Destination.txt` and then all the lua files will be combined into `Spells.lua`.
-
-This means that you cant put two .xml or .lua destinations into a `Destination.txt`. **All files with multiple destinations get ignored!**
+This means that you cant put two .xml destinations into a `Destination.txt`. **All files with multiple destinations get ignored!**
 
 
 **Note:** your XML should not contain the outer tags of the respective file. So your spell XMLs should not 
@@ -47,10 +45,11 @@ sure that all the information Steam needs for their workshop mods are present. A
 Like with all other .xml files you dont need
 to include the outer `<WorkshopItemInfo>` tag in your files, **ObfE** will do that for you.
 
-## A note on custom animations and image files
+## A note on animations and other file types
 
-### Image files
-All .png and .aseprite files in any folder get transported to your mod folder in the build step, no need to define a destination for them!
+### Other file types
+All .png, .aseprite and .lua files in any folder get transported to your mod folder in the build step, 
+no need to define a destination for them!
 
 ### Animations
 If you have taken a look at the example mod for the character Lea you may have noticed that the .png and .aseprite
@@ -80,9 +79,9 @@ directories reside in the your base directory with the ObfE scripts and that eac
 to combine contains a Destination.txt
 
 Destination names are fixed for XML files, so use them as Destination if you set up your own structure.
-Lua files can be named however you want, so go nuts!
 
-**Only put one type of Destination for each file type, as otherwise the folder will be ignored for those file types.**
+**Only put one destination in each `Destination.txt`, as otherwise the folder and all subfolders without a new `Destination.txt`
+will be ignored.**
 
 ### Valid XML destinations
 - Artifacts.xml
