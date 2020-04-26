@@ -30,7 +30,7 @@ This means that you cant put two .xml or .lua destinations into a `Destination.t
 contain the `<Spells>` tag, just `<Spell>` tags and the stuff between that. The scripts put all your XMLs between these 
 tags in the combine step, so no need to do it yourself.
 
-### 3. When you are ready to test your mod, execute moveToLocalEden.py
+### 3. When you are ready to test your mod, execute buildToLocalEden.py
 This will ask you for your steam location and the name of your mod if you havent specified it yet and then put all
 your mod files into your local mods folder for you. If you changed something, simply save your files and run the script 
 again!
